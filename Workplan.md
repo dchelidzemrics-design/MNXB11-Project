@@ -11,7 +11,7 @@ Team members: David Chelidze, Estrella González Gómez, Joel Johansen, Maja Sol
 flowchart TD
     %% This will be the same for all analyses
     A["datasets/datasets.tgz"] --> B("Clean <br> (bash)")
-    B --> C["datasets/Lund.CSV"]
+    B --> C["datasets/Data.csv"]
     C --> D("Extract and reformat <br> (c++)")
     D --> E["Lund.root"]
 
