@@ -2,25 +2,33 @@ CXX := g++
 CXXWARNINGS := -Wall -Wextra -Werror
 CXXOPT := -O3
 CXXSTD := -std=c++17
-INCLUDES := -I include
+INCLUDES := -I include -I external/include -I $(shell root-config --incdir)
+
 CXXFLAGS := $(CXXWARNINGS) $(CXXSTD) $(CXXOPT) $(INCLUDES)
-LDFLAGS :=
+LDFLAGS := $(shell root-config --libs)
+
+# Variables used to generate/compile a root dictonary 
+HEADERS := include/Observation.h
+SOURCES := src/Observation.cxx
+ROOTSYS := $(shell root-config --prefix)
 
 .PHONY: all clean
 
 all: main
 
-# If you add new source files in the src/ directory, remember to add the
-# corresponding object file as a dependency here so that Make knows that it
-# should build it and link to it
-#
-# Remove the Example object file when you are done looking at it, it doesn't
-# contribute to the executable!
-main: main.cxx src/Example.o
+# Generate and compile root dictonary, see https://root.cern/manual/io_custom_classes/#selecting-dictionary-entries-linkdefh
+# Do NOT have space after -I flag
+ObservationDict.cxx: $(HEADERS) include/Linkdef.h
+	rootcling -f $@ -c -Iinclude -Iexternal/include -I$(shell root-config --incdir) -p $^
+
+libObservation.so: ObservationDict.cxx $(SOURCES)
+	$(CXX) -fPIC -shared -o$@ $(CXXFLAGS) -I$(ROOTSYS)/include $^ $(shell root-config --ldflags --libs)
+
+main: main.cxx src/DataExtraction.o src/Observation.o ObservationDict.cxx
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 
 src/%.o: src/%.cxx
 	$(CXX) $(CXXFLAGS) $^ -c -o $@
 
 clean:
-	rm -v src/*.o main
+	rm -v src/*.o libObservation.so ObservationDict.cxx ObservationDict_rdict.pcm main

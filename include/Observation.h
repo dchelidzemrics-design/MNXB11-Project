@@ -7,6 +7,10 @@ class Observation : public TObject {
 
     public: 
 
+        // Default constructor with zero parameters
+        // This is required to use I/O objects 
+        Observation(); 
+        
         // Constructor with parameters
         Observation(Int_t year, Int_t month, Int_t day, Int_t hour, Double_t temperature);
 
