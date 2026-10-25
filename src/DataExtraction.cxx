@@ -38,13 +38,13 @@ void write_observation(const std::vector<Observation> &observations, const std::
     TFile f{tree_file.c_str(), "RECREATE"};
 
     // Initialize TTree object
-    TTree *tree = new TTree("Measurements", "A TTree with temperature data");
+    TTree *tree = new TTree("measurements", "A TTree with temperature data");
 
     // Initialize Observation pointer
     Observation *measurement{nullptr};
 
     // Make a branch 
-    tree->Branch("Measurements", &measurement);
+    tree->Branch("measurements", &measurement);
 
     Int_t year, month, day, hour;
     Double_t temperature;
