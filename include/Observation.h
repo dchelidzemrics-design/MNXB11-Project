@@ -10,8 +10,8 @@ class Observation : public TObject {
         // Constructor with parameters
         Observation(Int_t year, Int_t month, Int_t day, Int_t hour, Double_t temperature);
 
-        // Destructor 
-        virtual ~Observation();
+        // Override destructor from base class 
+        ~Observation() override;
 
         // Getters
         Int_t Year() const;
@@ -31,5 +31,8 @@ class Observation : public TObject {
         Int_t _day;
         Int_t _hour; 
         Double_t _temperature;
+
+        // Observation class
+        ClassDef(Observation, 1);
 
 };

@@ -1,8 +1,13 @@
 #include "Observation.h"
 
+ClassImp(Observation);
+
 // Constructor with parameters definition
 Observation::Observation(Int_t year, Int_t month, Int_t day, Int_t hour, Double_t temperature) : 
     _year{year}, _month{month}, _day{day}, _hour{hour}, _temperature{temperature} {}
+
+// Default destructor 
+Observation::~Observation() {}
 
 // Getters definition
 Int_t Observation::Year() const { return _year; }

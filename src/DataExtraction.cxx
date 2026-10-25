@@ -1,7 +1,7 @@
 #include "DataExtraction.h" 
 
 // Definition of function that takes .csv data file as input and creates a vector of observations
-std::vector<Observation> parse_observation(const std:.string& csv_file) {
+std::vector<Observation> parse_observation(const std::string& csv_file) {
 
     // We use the external csv parser library
     // We have five columns in the parsed .csv data file
@@ -29,13 +29,13 @@ std::vector<Observation> parse_observation(const std:.string& csv_file) {
     return rows;
 }
 
-// Definition of function that writes a .root file from vector of Observation objects
+// Definition of function that writes a .root file from a vector of Observation objects
 void write_observation(const std::vector<Observation> &observations, const std::string& tree_file) {
 
-    // .c_out() needed to convert from std::string to C-string
+    // .c_str() needed to convert from std::string to C-string
     // The RECREATE parameter makes it so that any file with name tree_file 
     // gets overwritten if it already exists
-    TFile f{tree_file.c_out(), "RECREATE"};
+    TFile f{tree_file.c_str(), "RECREATE"};
 
     // Initialize TTree object
     TTree *tree = new TTree("Measurements", "A TTree with temperature data");
@@ -46,11 +46,12 @@ void write_observation(const std::vector<Observation> &observations, const std::
     // Make a branch 
     tree->Branch("Measurements", &measurement);
 
-    Int_t, year, month, day, hour;
+    Int_t year, month, day, hour;
     Double_t temperature;
 
     // Loop over the observations
-    for (const auto observation : observations) {
+    // Use reference type to prevent copying 
+    for (const auto &observation : observations) {
 
         year = observation.Year();
         month = observation.Month();
