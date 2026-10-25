@@ -16,7 +16,7 @@ ROOTSYS := $(shell root-config --prefix)
 
 all: main
 
-# Generate and compile root dictonary, see https://root.cern/manual/io_custom_classes/#selecting-dictionary-entries-linkdefh
+# Generate and compile root dictonary, see <https://root.cern/manual/io_custom_classes/#selecting-dictionary-entries-linkdefh>
 # Do NOT have space after -I flag
 ObservationDict.cxx: $(HEADERS) include/Linkdef.h
 	rootcling -f $@ -c -Iinclude -Iexternal/include -I$(shell root-config --incdir) -p $^

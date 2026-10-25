@@ -3,28 +3,41 @@
 // NOTE: copying git log over this file is NOT a ChangeLog! See this: <https://www.gnu.org/prep/standards/html_node/Change-Logs.html>
 // Changelog is a summary of a lot of related commits.
 
-# Template: 
+# Changelog (entries from newest to oldest): 
 
-YYYY-MM-DD Name LastName  <email@somewhere>
+2026-10-25 Joel Johansen  <jo6312jo-s@student.lu.se>
 
-	High Level description of work done
+	Fixed some syntax errors in the data extraction files and added a default constructor
+	for the Observation class. Implemented the compilation of 
+	the custom class Observation in Makefile using rootcling. Updated rootlogon.C
 
-	* Fine grained description of important things that you want to communicate
-	* Fine grained description of important things that you want to communicate
+	* Debugged the src/Observation.cxx and include/Observation.h files and added a default 
+	constructor for the class to ensure I/O compability
+	* Using rootcling the Makefile was updated so that the custom class dictonary can be generated 
+	using make. Added the Linkdef.h file needed for this. Also added the object files DataExtraction.o,
+	Observation.o as well as ObservationDict.cxx so that the main executable can be built
+	* Removed unused code from rootlogon.C and also added code that libObservation.so is automatically
+	loaded when a ROOT session is initialized
+	* Running make libObservation.so followed by make main now creates an executable called main
+	that generates a TTree 
 
+2026-10-22 Joel Johansen  <jo6312jo-s@student.lu.se>
 
-# Example (entries from newest to oldest):
+	Created the files needed for data extraction and a python script
+	that parses the raw data
 
-2025-09-26 Florido Paganelli  <florido.paganelli@fysik.lu.se>
+	* Created include/DataExtraction.h, include/Observation.h
+	* Created src/DataExtraction.cxx, src/Observation.cxx
+	* Added the Observation class to include/Observation.h, derived from the TObject class, with the 
+	private members _year, _month, _day, _hour and _temperature. Also added 
+	getters and setters and implemented all definitions of these in src/Observation.cxx
+	* Added the functions parse_observation(csv_file) and write_observation(observations, tree_file) to
+	include/DataExtraction.h. The first takes as input a .csv file and returns a vector of Observation objects. The second takes as input a vector of Observation objects and a .root filename and returns
+	a TTree object with name "tree_file.root". The functions were implemented in src/DataExtraction.cxx
+	* Wrote a python the ParseData.py script which parses the raw data and writes it to a new file
 
-	Reviewing content of project template
+2026-10-20 Joel Johansen  <jo6312jo-s@student.lu.se>
 
-	* Added ChangeLog.txt with comments and examples
+	Updated the Workplan.md file 
 
-2025-09-25 Florido Paganelli  <florido.paganelli@fysik.lu.se>
-
-	Reviewing content of project template
-
-	* Checking directory structure
-	* Added Workplan.md
-
+	* Made a skeleton for a flowchart using mermaid 
