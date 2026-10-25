@@ -16,8 +16,7 @@
 	* Using rootcling the Makefile was updated so that the custom class dictonary can be generated 
 	using make. Added the Linkdef.h file needed for this. Also added the object files DataExtraction.o,
 	Observation.o as well as ObservationDict.cxx so that the main executable can be built
-	* Removed unused code from rootlogon.C and also added code that libObservation.so is automatically
-	loaded when a ROOT session is initialized
+	* Removed unused code from rootlogon.C and also added code so that libObservation.so is automatically loaded when a ROOT session is initialized
 	* Running make libObservation.so followed by make main now creates an executable called main
 	that generates a TTree 
 
@@ -34,7 +33,7 @@
 	* Added the functions parse_observation(csv_file) and write_observation(observations, tree_file) to
 	include/DataExtraction.h. The first takes as input a .csv file and returns a vector of Observation objects. The second takes as input a vector of Observation objects and a .root filename and returns
 	a TTree object with name "tree_file.root". The functions were implemented in src/DataExtraction.cxx
-	* Wrote a python the ParseData.py script which parses the raw data and writes it to a new file
+	* Wrote the ParseData.py script which parses the raw data and writes it to a new file
 
 2026-10-20 Joel Johansen  <jo6312jo-s@student.lu.se>
 
