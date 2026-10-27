@@ -5,6 +5,15 @@
 
 # Changelog (entries from newest to oldest): 
 
+2026-10-27 Estrella González Gómez <es2670go-s@student.lu.se>
+
+	Installed the external CSV parser dependency and successfully built and ran the project
+
+	* Cloned fast-cpp-csv-parser into external/include/csv to provide the csv/csv.h header required by DataExtraction.cxx. The dependency is installed locally and is not intended to be committed to the main repository.
+	* Ran ParseData.py to generate datasets/ParsedData.csv from datasets/Data.csv, retaining observations with quality 'G' and extracting year, month, day, hour and temperature.
+	* Successfully compiled the project using make.
+	* Executed ./main, which generated temperature_tree.root containing the extracted observations in a ROOT TTree.
+
 2026-10-25 Joel Johansen  <jo6312jo-s@student.lu.se>
 
 	Fixed some syntax errors in the data extraction files and added a default constructor
@@ -41,11 +50,3 @@
 
 	* Made a skeleton for a flowchart using mermaid 
 
-2026-10-27 Estrella González Gómez <es2670go-s@student.lu.se>
-
-	Installed the external CSV parser dependency and successfully built and ran the project
-
-	* Cloned fast-cpp-csv-parser into external/include/csv to provide the csv/csv.h header required by DataExtraction.cxx. The dependency is installed locally and is not intended to be committed to the main repository.
-	* Ran ParseData.py to generate datasets/ParsedData.csv from datasets/Data.csv, retaining observations with quality 'G' and extracting year, month, day, hour and temperature.
-	* Successfully compiled the project using make.
-	* Executed ./main, which generated temperature_tree.root containing the extracted observations in a ROOT TTree.
