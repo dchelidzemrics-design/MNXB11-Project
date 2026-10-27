@@ -5,6 +5,20 @@
 
 # Changelog (entries from newest to oldest): 
 
+2026-10-27 Estrella González Gómez
+
+    Implemented and validated Analysis 3: daily temperature statistics
+
+    * Loaded the temperature measurements from temperature_tree.root and grouped them by calendar date.
+    * Calculated the mean temperature for each date from its available measurements.
+    * Excluded 29 February to obtain a consistent 365-day calendar.
+    * Calculated the mean temperature and standard deviation across years for each day of the year.
+    * Identified and corrected a leap-year indexing error that incorrectly assigned 1 March in leap years to day 59 instead of day 60.
+    * Verified the day-of-year indexing, confirming that day 59 corresponds to 28 February and that dates after February are consistently assigned in leap and non-leap years.
+    * Checked the daily statistics tree, confirming 365 entries and between 158 and 161 contributing dates per day.
+    * Verified that the mean temperatures and standard deviations were within reasonable ranges.
+    * Generated Analysis3.root and Analysis3.pdf containing the daily temperature statistics and plot.
+
 2026-10-27 Estrella González Gómez <es2670go-s@student.lu.se>
 
 	Installed the external CSV parser dependency and successfully built and ran the project
