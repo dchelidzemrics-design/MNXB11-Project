@@ -31,4 +31,5 @@ src/%.o: src/%.cxx
 	$(CXX) $(CXXFLAGS) $^ -c -o $@
 
 clean:
-	rm -v src/*.o libObservation.so ObservationDict.cxx ObservationDict_rdict.pcm main
+	rm -v src/*.o datasets/*.csv datasets/*.dat datasets/*.txt libObservation.so ObservationDict.cxx ObservationDict_rdict.pcm temperature_tree.root main
+	
