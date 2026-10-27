@@ -7,7 +7,7 @@
 int main() {
   
   // Make a vector containing the observation data from the parsed dataset
-  std::vector<Observation> observation_vector{parse_observation("datasets/ParsedData.csv")};
+  std::vector<Observation> observation_vector{parse_observation("datasets/parseddata.csv")};
   
   // Add this data to a tree .root file that is created in the local 
   // directory 
