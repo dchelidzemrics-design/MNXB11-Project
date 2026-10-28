@@ -39,7 +39,7 @@ int DayOfYear(int month, int day)
     }
     return doy;
 }
-void Analysis5() {
+void Analysis4() {
     //===LOAD FILES AND MEASUREMENTS===
     if (gSystem->Load("./libObservation.so") < 0){
         cout << "Could not load libObservation.so" << endl;
@@ -178,10 +178,10 @@ void Analysis5() {
     legend->Draw();
 
     //===SAVE THE PLOT===
-    canvas->SaveAs("Analysis5.pdf");
+    canvas->SaveAs("Analysis4.pdf");
     
     //===SAVE RESULTS TO ROOT FILE===
-    TFile outputFile("Analysis5.root", "RECREATE");
+    TFile outputFile("Analysis4.root", "RECREATE");
 
     warmest->Write();
     coldest->Write();
