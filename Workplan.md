@@ -19,8 +19,7 @@ flowchart TD
     E --> F("Analysis 1 <br> (the start, end and duration of summer each year)")
     E --> G("Analysis 2 <br> (days above threshold temperature during fixed time interval)")
     E --> H("Analysis 3 <br> (the temperature for every day of the year)")
-    E --> I("Analysis 4 <br> (the mean temperature of each year)")
-    E --> J("Analysis 5")
+    E --> I("Analysis 4 <br> (Distribution of warmest and coldest days of the year)")
 
     %% Analysis 1 workflow
     F --> F1["summer_start_end_duration.root"]
@@ -41,11 +40,6 @@ flowchart TD
     I --> I1["Analysis4.root"]
     I1 --> I2("Analysis 4 root macro")
     I2 --> I3("Analysis4.pdf")
-
-    %% Analysis 5 workflow
-    J --> J1["Analysis5.root"]
-    J1 --> J2("Analysis 5 root macro")
-    J2 --> J3("Analysis5.pdf")
 
     %% Legend 
     subgraph Legend ["Legend"]
