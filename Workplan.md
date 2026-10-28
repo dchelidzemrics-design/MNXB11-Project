@@ -46,4 +46,12 @@ flowchart TD
         direction LR
         L1["Files"] ~~~ L2("Tasks")
     end
+
+    %% Seperate Files and Tasks into different classes
+    %% with different colors
+    classDef Files fill:#90bd82;
+    classDef Tasks fill:#b9a1ed;
+
+    class L1,A,C,E,G1,G3,H1,H3,I1,I3,J1,J3 Files;
+    class L2,B,D,G,H,I,J,F,F2,G2,H2,I2,J2 Tasks;
 ```
