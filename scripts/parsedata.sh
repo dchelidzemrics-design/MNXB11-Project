@@ -11,7 +11,7 @@ raw_data_path=../datasets/smhi-opendata_1_53430_20261007_164857_Lund.csv
 parsed_data_path=../datasets/parseddata.csv
 
 # Headers of our parsed data .csv file 
-echo "year,month,day,hour,temperature" > test.csv
+echo "year,month,day,hour,temperature" > $parsed_data_path
 echo "Created pareseddata.csv file..." 
 
 # Parse the desired raw data file 
