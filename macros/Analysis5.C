@@ -9,7 +9,7 @@
 #include <TLegend.h>
 #include <TSystem.h>
 
-#include "include/Observation.h"
+#include "../include/Observation.h"
 
 using namespace std;
 
@@ -170,10 +170,8 @@ void Analysis5() {
     warmest->Draw("HIST L");
     coldest->Draw("HIST L SAME");
 
-    canvas->Modified();
-    canvas->Update();
+    TLegend* legend = new TLegend(0.15, 0.75, 0.35, 0.88);
 
-    TLegend* legend = new TLegend(0.72, 0.75, 0.89, 0.88);
     legend->AddEntry(warmest, "Warmest day", "l");
     legend->AddEntry(coldest, "Coldest day", "l");
     
@@ -181,9 +179,13 @@ void Analysis5() {
 
     //===SAVE THE PLOT===
     canvas->SaveAs("Analysis5.pdf");
-    cout << "Plot saved as Analysis5.pdf" << endl;
     
+    //===SAVE RESULTS TO ROOT FILE===
+    TFile outputFile("Analysis5.root", "RECREATE");
 
+    warmest->Write();
+    coldest->Write();
+    outputFile.Close();
     file.Close();
 }
 
