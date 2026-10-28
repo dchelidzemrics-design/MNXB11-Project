@@ -4,6 +4,18 @@
 // Changelog is a summary of a lot of related commits.
 
 # Changelog (entries from newest to oldest): 
+2026-10-28 [Maja Solman Wålsten]
+
+    Implemented Analysis 5: frequency of the warmest and coldest days of the year
+
+    * Created Analysis5.C to analyze measurements from temperature_tree.root.
+    * Grouped temperature observations by year and day, calculating the mean temperature for each day.
+    * Excluded 29 February to have 365-days for each year for both leap and non-leap years.
+    * Identified the warmest and coldest day of each year based on daily mean temperatures.
+    * Created two 365-bin histograms showing how frequently each calendar day was the warmest or coldest day of a year.
+    * Generated Analysis5.pdf showing the warmest-day distribution in red and the coldest-day distribution in blue.
+    * Fixed ROOT histogram lifetime issues to ensure the plots remain visible after closing the input file.
+    * Generated Analysis5.root.
 
 2026-10-27 Estrella González Gómez
 
