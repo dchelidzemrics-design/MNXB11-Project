@@ -4,6 +4,20 @@
 // Changelog is a summary of a lot of related commits.
 
 # Changelog (entries from newest to oldest): 
+
+2026-10-28 [Evelina Vedin Meijer]
+
+	Added Analysis 3: Annual mean temperature in Lund
+
+	* Added Analysis3.C to analyze measurements from temperature_tree.root
+	* Calculated the mean temperature per year by the sum of all temperature measurements per year / number of measurements per year
+	* Calculated the average of all mean temperatures and found how much each annual mean deviated from this
+	* Created a graph for the annual mean temperature datapoints and a fitted line to predict future measurements
+	* Created a bar chart which plots the yearly temperature deviations from average using TBox
+	* Generated deviation_from_average.png and annual_mean.png
+	* Added code for analyzation in main.cxx
+
+
 2026-10-28 [Maja Solman Wålsten]
 
     Implemented Analysis 5: frequency of the warmest and coldest days of the year
