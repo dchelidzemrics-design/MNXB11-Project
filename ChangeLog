@@ -4,8 +4,39 @@
 // Changelog is a summary of a lot of related commits.
 
 # Changelog (entries from newest to oldest): 
+2026-10-28 [Maja Solman Wålsten]
 
-2026-10-27 Estrella González Gómez
+    Implemented Analysis 5: frequency of the warmest and coldest days of the year
+
+    * Created Analysis5.C to analyze measurements from temperature_tree.root.
+    * Grouped temperature observations by year and day, calculating the mean temperature for each day.
+    * Excluded 29 February to have 365-days for each year for both leap and non-leap years.
+    * Identified the warmest and coldest day of each year based on daily mean temperatures.
+    * Created two 365-bin histograms showing how frequently each calendar day was the warmest or coldest day of a year.
+    * Generated Analysis5.pdf showing the warmest-day distribution in red and the coldest-day distribution in blue.
+    * Fixed ROOT histogram lifetime issues to ensure the plots remain visible after closing the input file.
+    * Generated Analysis5.root.
+
+2026-10-27 David Chelidze
+
+	Added Analysis 2 for counting warm summer days in Lund.
+
+	* Added Analysis2.h and Analysis2.cxx.
+	* Counted June-August days where the highest available daily temperature reaches the chosen threshold.
+	* Excluded years with incomplete summer data.
+	* Added a ROOT macro and PDF plot for Analysis 2.
+	* Updated main.cxx and the Makefile to include Analysis 2.
+
+2026-10-28 Estrella González Gómez <es2670go-s@student.lu.se>
+
+    Improved the visualization of Analysis 3
+
+    * Redesigned the daily temperature plot to distinguish the mean temperature from its standard deviation.
+    * Replaced the individual error bars with a transparent shaded band representing the mean temperature plus and minus one standard deviation.
+    * Highlighted the mean temperature with a red line and adjusted the plot opacity and x-axis range to improve readability.
+    * Preserved the existing statistical calculations and the 365-day calendar.
+
+2026-10-27 Estrella González Gómez <es2670go-s@student.lu.se>
 
     Implemented and validated Analysis 3: daily temperature statistics
 

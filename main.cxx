@@ -1,4 +1,5 @@
 #include "DataExtraction.h"
+#include "Analysis2.h"
 #include "Observation.h"
 
 #include <iostream>
@@ -54,6 +55,9 @@ int main(int argc, char* argv[]) {
     }
 
   }
+
+  // Run analysis 2 using a temperature threshold of 25 degrees
+  analysis2(observation_vector, 25.0, "Analysis2.root");
 
   return 0;
 
