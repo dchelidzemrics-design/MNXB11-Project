@@ -5,6 +5,16 @@
 
 # Changelog (entries from newest to oldest): 
 
+2026-10-27 David Chelidze
+
+	Added Analysis 2 for counting warm summer days in Lund.
+
+	* Added Analysis2.h and Analysis2.cxx.
+	* Counted June-August days where the highest available daily temperature reaches the chosen threshold.
+	* Excluded years with incomplete summer data.
+	* Added a ROOT macro and PDF plot for Analysis 2.
+	* Updated main.cxx and the Makefile to include Analysis 2.
+
 2026-10-27 Estrella González Gómez
 
     Implemented and validated Analysis 3: daily temperature statistics
