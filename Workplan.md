@@ -6,7 +6,7 @@ Team members: David Chelidze, Estrella González Gómez, Joel Johansen, Maja Sol
 
 # Workflow chart
 
-```mermaid 
+```mermaid
 %%{init: { 'theme':'neutral', 'fontSize': '11px'} }%%
 flowchart TD
     %% This will be the same for all analyses
@@ -16,29 +16,29 @@ flowchart TD
     D --> E["temperature_tree.root"]
 
     %% The seperate analyses
-    E --> G("Analysis 1 <br> (Warm summer days in Lund)")
-    E --> H("Analysis 2 <br> (Daily temperature throughout the year)")
-    E --> I("Analysis 3 <br> (Annual mean temperture in Lund)")
-    E --> J("Analysis 4 <br> (Warmest and coldest days)")
+    E --> G("Analysis 1: <br> Warm summer days in Lund <br> (c++, ROOT)")
+    E --> H("Analysis 2: <br> Daily temperature throughout the year <br> (c++, ROOT)")
+    E --> I("Analysis 3: <br> Annual mean temperture in Lund <br> (c++, ROOT)")
+    E --> J("Analysis 4: <br> Warmest and coldest days <br> (c++, ROOT)")
 
     %% Analysis 1 workflow
-    G --> G1["Analysis1.root"]
-    G1 --> G2("Analysis 1 root macro")
+    G --> G1["Analysis1.C"]
+    G1 --> G2("Main script <br> (c++)")
     G2 --> G3("Analysis1.pdf")
 
     %% Analysis 2 workflow
-    H --> H1["Analysis2.root"]
-    H1 --> H2("Analysis 2 root macro")
+    H --> H1["Analysis2.C"]
+    H1 --> H2("Main script <br> (c++)")
     H2 --> H3("Analysis2.pdf")
 
     %% Analysis 3 workflow
-    I --> I1["Analysis3.root"]
-    I1 --> I2("Analysis 3 root macro")
+    I --> I1["Analysis3.C"]
+    I1 --> I2("Main script <br> (c++)")
     I2 --> I3("Analysis3.pdf")
 
     %% Analysis 4 workflow
-    J --> J1["Analysis4.root"]
-    J1 --> J2("Analysis 4 root macro")
+    J --> J1["Analysis4.C"]
+    J1 --> J2("Main script <br> (c++)")
     J2 --> J3("Analysis4.pdf")
 
     %% Legend 
