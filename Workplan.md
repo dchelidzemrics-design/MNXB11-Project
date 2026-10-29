@@ -16,10 +16,10 @@ flowchart TD
     D --> E["temperature_tree.root"]
 
     %% The seperate analyses
-    E --> G("Analysis 1 <br> (Days above threshold temperature during fixed time interval)")
-    E --> H("Analysis 2 <br> (The temperature for every day of the year)")
-    E --> I("Analysis 3 <br> (Distribution of warmest and coldest days of the year)")
-    E --> J("Analysis 4 <br> ")
+    E --> G("Analysis 1 <br> (Warm summer days in Lund)")
+    E --> H("Analysis 2 <br> (Daily temperature throughout the year)")
+    E --> I("Analysis 3 <br> (Annual mean temperture in Lund)")
+    E --> J("Analysis 4 <br> (Warmest and coldest days)")
 
     %% Analysis 1 workflow
     G --> G1["Analysis1.root"]
