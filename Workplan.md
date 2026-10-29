@@ -18,8 +18,8 @@ flowchart TD
     %% The seperate analyses
     E --> G("Analysis 1 <br> (Days above threshold temperature during fixed time interval)")
     E --> H("Analysis 2 <br> (The temperature for every day of the year)")
-    E --> I("Analysis 3 <br> (Distribution of warmest and coldest days of the year)")
-    E --> J("Analysis 4 <br> ")
+    E --> I("Analysis 3 <br> ")
+    E --> J("Analysis 4 <br> (Distribution of warmest and coldest days of the year)")
 
     %% Analysis 1 workflow
     G --> G1["Analysis1.root"]
