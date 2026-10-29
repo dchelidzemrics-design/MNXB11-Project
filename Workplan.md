@@ -6,46 +6,40 @@ Team members: David Chelidze, Estrella González Gómez, Joel Johansen, Maja Sol
 
 # Workflow chart
 
-```mermaid 
+```mermaid
 %%{init: { 'theme':'neutral', 'fontSize': '11px'} }%%
 flowchart TD
     %% This will be the same for all analyses
-    A["datasets/datasets.tgz"] --> B("Clean <br> (bash)")
-    B --> C["datasets/Data.csv"]
-    C --> D("Extract and reformat <br> (c++)")
-    D --> E["Lund.root"]
+    A["datasets/datasets.tgz"] --> B("Parse raw data <br> (BASH)")
+    B --> C["datasets/parseddata.csv"]
+    C --> D("Extract and reformat <br> (c++, ROOT)")
+    D --> E["temperature_tree.root"]
 
     %% The seperate analyses
-    E --> F("Analysis 1 <br> (the start, end and duration of summer each year)")
-    E --> G("Analysis 2 <br> (days above threshold temperature during fixed time interval)")
-    E --> H("Analysis 3 <br> (the temperature for every day of the year)")
-    E --> I("Analysis 4 <br> (the mean temperature of each year)")
-    E --> J("Analysis 5")
+    E --> G("Analysis 1: <br> Warm summer days in Lund <br> (c++, ROOT)")
+    E --> H("Analysis 2: <br> Daily temperature throughout the year <br> (c++, ROOT)")
+    E --> I("Analysis 3: <br> Annual mean temperture in Lund <br> (c++, ROOT)")
+    E --> J("Analysis 4: <br> Warmest and coldest days <br> (c++, ROOT)")
 
     %% Analysis 1 workflow
-    F --> F1["summer_start_end_duration.root"]
-    F1 --> F2("Write ROOT macro that plots the start, end and duration of summer against the year")
-    F2 --> F3("summer_start.pdf <br> summer_end.pdf <br> summer_duration.pdf")
-    
+    G --> G1["macros/Analysis1.C"]
+    G1 --> G2("Main script <br> (c++)")
+    G2 --> G3("results/Analysis1.pdf")
+
     %% Analysis 2 workflow
-    G --> G1["Analysis2.root"]
-    G1 --> G2("Analysis 2 root macro")
-    G2 --> G3("Analysis2.pdf")
+    H --> H1["macros/Analysis2.C"]
+    H1 --> H2("Main script <br> (c++)")
+    H2 --> H3("results/Analysis2.pdf")
 
     %% Analysis 3 workflow
-    H --> H1["Analysis3.root"]
-    H1 --> H2("Analysis 3 root macro")
-    H2 --> H3("Analysis3.pdf")
+    I --> I1["macros/Analysis3.C"]
+    I1 --> I2("Main script <br> (c++)")
+    I2 --> I3("results/Analysis3.pdf")
 
     %% Analysis 4 workflow
-    I --> I1["Analysis4.root"]
-    I1 --> I2("Analysis 4 root macro")
-    I2 --> I3("Analysis4.pdf")
-
-    %% Analysis 5 workflow
-    J --> J1["Analysis5.root"]
-    J1 --> J2("Analysis 5 root macro")
-    J2 --> J3("Analysis5.pdf")
+    J --> J1["macros/Analysis4.C"]
+    J1 --> J2("Main script <br> (c++)")
+    J2 --> J3("results/Analysis4.pdf")
 
     %% Legend 
     subgraph Legend ["Legend"]
@@ -58,6 +52,6 @@ flowchart TD
     classDef Files fill:#90bd82;
     classDef Tasks fill:#b9a1ed;
 
-    class L1,A,C,E,F1,F3,G1,G3,H1,H3,I1,I3,J1,J3 Files;
-    class L2,B,D,F,G,H,I,J,F2,G2,H2,I2,J2 Tasks;
+    class L1,A,C,E,G1,G3,H1,H3,I1,I3,J1,J3 Files;
+    class L2,B,D,G,H,I,J,F,F2,G2,H2,I2,J2 Tasks;
 ```

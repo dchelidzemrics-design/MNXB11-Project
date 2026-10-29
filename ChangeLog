@@ -5,9 +5,49 @@
 
 # Changelog (entries from newest to oldest): 
 
+2026-10-29 [Evelina Vedin Meijer]
+
+	Implemented code to account for years without enough data
+
+	* Implemented code that disregards years with less than 360 days of data 
+	* Generated new graphs deviation_from_average.png and annual_mean.png
+
+2026-10-28 [Evelina Vedin Meijer]
+
+	Added Analysis 3: Annual mean temperature in Lund
+
+	* Added Analysis3.C to analyze measurements from temperature_tree.root
+	* Calculated the mean temperature per year by the sum of all temperature measurements per year / number of measurements per year
+	* Calculated the average of all mean temperatures and found how much each annual mean deviated from this
+	* Created a graph for the annual mean temperature datapoints and a fitted line to predict future measurements
+	* Created a bar chart which plots the yearly temperature deviations from average using TBox
+	* Generated deviation_from_average.png and annual_mean.png
+	* Added code for analyzation in main.cxx
+
+2026-10-28 Joel Johansen  <jo6312jo-s@student.lu.se>
+
+	Updated main.cxx and parsedata.sh
+
+	* Main executable now takes single input and performs the desired analysis depending on this input 
+	* parsedata.sh now extracts the raw data and also performs the data parsing in BASH
+	* Removed old data parser written in python
+
+2026-10-28 [Maja Solman Wålsten]
+
+    Implemented Analysis 4: frequency of the warmest and coldest days of the year
+
+    * Created Analysis5.C to analyze measurements from temperature_tree.root.
+    * Grouped temperature observations by year and day, calculating the mean temperature for each day.
+    * Excluded 29 February to have 365-days for each year for both leap and non-leap years.
+    * Identified the warmest and coldest day of each year based on daily mean temperatures.
+    * Created two 365-bin histograms showing how frequently each calendar day was the warmest or coldest day of a year.
+    * Generated Analysis5.pdf showing the warmest-day distribution in red and the coldest-day distribution in blue.
+    * Fixed ROOT histogram lifetime issues to ensure the plots remain visible after closing the input file.
+    * Generated Analysis5.root.
+
 2026-10-27 David Chelidze
 
-	Added Analysis 2 for counting warm summer days in Lund.
+	Added Analysis 1 for counting warm summer days in Lund.
 
 	* Added Analysis2.h and Analysis2.cxx.
 	* Counted June-August days where the highest available daily temperature reaches the chosen threshold.
@@ -15,7 +55,16 @@
 	* Added a ROOT macro and PDF plot for Analysis 2.
 	* Updated main.cxx and the Makefile to include Analysis 2.
 
-2026-10-27 Estrella González Gómez
+2026-10-28 Estrella González Gómez <es2670go-s@student.lu.se>
+
+    Improved the visualization of Analysis 3
+
+    * Redesigned the daily temperature plot to distinguish the mean temperature from its standard deviation.
+    * Replaced the individual error bars with a transparent shaded band representing the mean temperature plus and minus one standard deviation.
+    * Highlighted the mean temperature with a red line and adjusted the plot opacity and x-axis range to improve readability.
+    * Preserved the existing statistical calculations and the 365-day calendar.
+
+2026-10-27 Estrella González Gómez <es2670go-s@student.lu.se>
 
     Implemented and validated Analysis 3: daily temperature statistics
 
