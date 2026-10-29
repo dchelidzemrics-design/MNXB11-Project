@@ -1,22 +1,9 @@
-# MNXB11-project-template
+# MNXB11-Project
 # About
-This folder contains a skeleton for your project that you can use as
-inspiration. Once you get started, do feel free to go ahead and replace this
-README file with one representing your project.
 
-# Directory structure
 
-The base directory here contains your "main" file, i.e. the C++ file that you
-will be using as your starting point in your project. The code in this file should ideally be short and just make use of the functionality that you've
-prepared in your other translation units. The majority of your code should be placed in  the two folders where you define your translation units, `src/` and `include/`. 
+# Overview
 
-Do remember to add your include guards to your header files, otherwise the compiler will
-get multiple definitions if you end up loading two source files that include the
-same header.
-
-In the template you can find a small translation unit called Example (in [src/Example.cxx](src/Example.cxx) and [include/Example.h](include/Example.h)) that shows some commented reminders of how the syntax for some C++ constructs work. Feel free to use this as a reference to remind yourself of how to do something while working on it but make sure to remove it from your final project version!
-
-There is a demonstration of a toy project you can use for inspiration at [EinarElen/MNXB11-project-demo](https://github.com/EinarElen/MNXB11-project-demo). You should not copy code from this repository. There are some intentional bugs hiding in there, see if you can spot them. 
 
 The main files that can be a starting point are:
 - [rootlogon.C](rootlogon.C)
