@@ -178,7 +178,7 @@ void Analysis4() {
     legend->Draw();
 
     //===SAVE THE PLOT===
-    canvas->SaveAs("Analysis4.pdf");
+    canvas->SaveAs("results/Analysis4.pdf");
     
     //===SAVE RESULTS TO ROOT FILE===
     TFile outputFile("Analysis4.root", "RECREATE");
