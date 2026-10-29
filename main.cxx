@@ -1,5 +1,6 @@
 #include "DataExtraction.h"
 #include "Analysis2.h"
+#include "Analysis3.h"
 #include "Observation.h"
 
 #include <iostream>
@@ -43,7 +44,8 @@ int main(int argc, char* argv[]) {
 
       std::cout << "Performing analysis 3..." << std::endl;
 
-      // Analysis 3 code here 
+      //temperature prediction for year 2040
+      tempPerYear(2040); 
 
     } else if (std::string(argv[1]) == "4") {
 
