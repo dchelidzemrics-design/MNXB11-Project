@@ -9,7 +9,7 @@
 
 	Implemented code to account for years without enough data
 
-	* Implemented code that disregards years with number of data that is under a threshold
+	* Implemented code that disregards years with less than 360 days of data 
 	* Generated new graphs deviation_from_average.png and annual_mean.png
 
 2026-10-28 [Evelina Vedin Meijer]

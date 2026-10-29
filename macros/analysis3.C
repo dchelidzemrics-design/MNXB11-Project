@@ -45,6 +45,7 @@ double tempPerYear(int predictionYear)
 
     std::map<int, double> tempSum; 
     std::map<int, int> measurementCount; 
+    std::map<int, std::map<int, int>> daily;
 
 
     //number of entries in tree
@@ -54,8 +55,15 @@ double tempPerYear(int predictionYear)
     for (Long64_t i = 0; i < nEntries; i++) {
         tree->GetEntry(i);
 
+        int day = measurement->Day();
+        int month = measurement->Month();
         int year = measurement->Year();
         double temperature = measurement->Temperature();
+
+        //gives each date a unique number (eq feb 23 is 223)
+        int date = month * 100 + day;
+        //uses the nested map to see if there are any measurements that day
+        daily[year][date] = 1;
 
         //adds temp to the sum of that year
         tempSum[year] += temperature;
@@ -71,21 +79,23 @@ double tempPerYear(int predictionYear)
     //===ANALYSIS===
 
     //calculate mean temp
-    for (const auto& entry: tempSum) {
-        int year = entry.first; 
-        
-        //skips years without enough data
-        if (measurementCount[year] < 360)
-        {
-            continue;
-        }
+    for (const auto& entry : tempSum) {
+    int year = entry.first;
 
-        double meanTemp = tempSum[year] / measurementCount[year]; 
+    int daysCount = static_cast<int>(daily[year].size());
 
-        //two new vectors containing year and corresponding mean temperature
-        years.push_back(year);
-        meanTemperatures.push_back(meanTemp);
+    //skips years without 360 days of data
+    if (daysCount < 360) 
+    {
+        continue;
     }
+
+    double meanTemp = tempSum[year] / measurementCount[year];
+
+    //two new vectors containing year and corresponding mean temperature
+    years.push_back(year);
+    meanTemperatures.push_back(meanTemp);
+}
 
 
     //===GRAPHS===
