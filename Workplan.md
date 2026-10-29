@@ -10,16 +10,16 @@ Team members: David Chelidze, Estrella González Gómez, Joel Johansen, Maja Sol
 %%{init: { 'theme':'neutral', 'fontSize': '11px'} }%%
 flowchart TD
     %% This will be the same for all analyses
-    A["datasets/datasets.tgz"] --> B("Clean <br> (BASH)")
+    A["datasets/datasets.tgz"] --> B("Parse raw data <br> (BASH)")
     B --> C["datasets/parseddata.csv"]
     C --> D("Extract and reformat <br> (c++, ROOT)")
     D --> E["temperature_tree.root"]
 
     %% The seperate analyses
-    E --> G("Analysis 1 <br> (days above threshold temperature during fixed time interval)")
-    E --> H("Analysis 2 <br> (the temperature for every day of the year)")
-    E --> I("Analysis 3 <br> (the mean temperature of each year)")
-    E --> J("Analysis 4")
+    E --> G("Analysis 1 <br> (Days above threshold temperature during fixed time interval)")
+    E --> H("Analysis 2 <br> (The temperature for every day of the year)")
+    E --> I("Analysis 3 <br> (Distribution of warmest and coldest days of the year)")
+    E --> J("Analysis 4 <br> ")
 
     %% Analysis 1 workflow
     G --> G1["Analysis1.root"]
@@ -53,5 +53,5 @@ flowchart TD
     classDef Tasks fill:#b9a1ed;
 
     class L1,A,C,E,G1,G3,H1,H3,I1,I3,J1,J3 Files;
-    class L2,B,D,G,H,I,J,F2,G2,H2,I2,J2 Tasks;
+    class L2,B,D,G,H,I,J,F,F2,G2,H2,I2,J2 Tasks;
 ```

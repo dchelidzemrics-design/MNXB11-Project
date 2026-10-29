@@ -24,10 +24,17 @@
 	* Generated deviation_from_average.png and annual_mean.png
 	* Added code for analyzation in main.cxx
 
+2026-10-28 Joel Johansen  <jo6312jo-s@student.lu.se>
+
+	Updated main.cxx and parsedata.sh
+
+	* Main executable now takes single input and performs the desired analysis depending on this input 
+	* parsedata.sh now extracts the raw data and also performs the data parsing in BASH
+	* Removed old data parser written in python
 
 2026-10-28 [Maja Solman Wålsten]
 
-    Implemented Analysis 5: frequency of the warmest and coldest days of the year
+    Implemented Analysis 4: frequency of the warmest and coldest days of the year
 
     * Created Analysis5.C to analyze measurements from temperature_tree.root.
     * Grouped temperature observations by year and day, calculating the mean temperature for each day.
@@ -40,7 +47,7 @@
 
 2026-10-27 David Chelidze
 
-	Added Analysis 2 for counting warm summer days in Lund.
+	Added Analysis 1 for counting warm summer days in Lund.
 
 	* Added Analysis2.h and Analysis2.cxx.
 	* Counted June-August days where the highest available daily temperature reaches the chosen threshold.
