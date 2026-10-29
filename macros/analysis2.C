@@ -1,14 +1,20 @@
+// Root libraries
 #include <TFile.h>
 #include <TTree.h>
 #include <TSystem.h>
-
 #include <iostream>
+
+// Date related libraries
 #include <map>
 #include <tuple>
+
+// Square root library
 #include <cmath>
 
+// Dataset access
 #include "include/Observation.h"
 
+// Graph related libraries
 #include <TCanvas.h>
 #include <TAxis.h>
 #include <TGraph.h>
@@ -16,6 +22,7 @@
 
 void analysis2() {
 
+    // Check that the library, input file and tree can be loaded
     if (gSystem->Load("./libObservation.so") < 0) {
         std::cerr << "Error: could not load libObservation.so" << std::endl;
         return;
@@ -28,6 +35,7 @@ void analysis2() {
         return;
     }
 
+    // Tree (measurements) access
     TTree *tree = nullptr;
     inputFile->GetObject("measurements", tree);
 
@@ -37,10 +45,11 @@ void analysis2() {
         return;
     }
 
+    // Data organisation: date and temperature
     Observation *measurement = nullptr;
     tree->SetBranchAddress("measurements", &measurement);
 
-    // Sum and count of measurements for each actual date.
+    // Sum and count of measurements for each actual date
     std::map<std::tuple<int, int, int>, std::pair<double, int>> dailyData;
 
     Long64_t entries = tree->GetEntries();
@@ -55,7 +64,7 @@ void analysis2() {
         int day = measurement->Day();
         double temperature = measurement->Temperature();
 
-        // Exclude February 29.
+        // Exclude February 29
         if (month == 2 && day == 29) continue;
 
         auto date = std::make_tuple(year, month, day);
@@ -63,10 +72,14 @@ void analysis2() {
         dailyData[date].second++;
     }
 
-    // Statistics for each day of a common 365-day calendar.
+    // Statistics for each day of a common 365-day calendar
     double sumTemperature[366] = {};
     double sumSquaredTemperature[366] = {};
     int numberOfDates[366] = {};
+
+    // Save mean and std for later (AI suggested this implementation)
+    double meanTemperatureByDay[366] = {};
+    double standardDeviationByDay[366] = {};
 
     const int daysInMonth[12] =
         {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
@@ -82,17 +95,19 @@ void analysis2() {
 
         int dayOfYear = day;
 
+        // Calculate the day number
         for (int m = 1; m < month; ++m) {
         dayOfYear += daysInMonth[m - 1];
         }
 
+        // Statistical data accumulation
         sumTemperature[dayOfYear] += dailyMean;
         sumSquaredTemperature[dayOfYear] += dailyMean * dailyMean;
         numberOfDates[dayOfYear]++;
 
     }
 
-    // Create the output ROOT file.
+    // Create the output ROOT file
     TFile *outputFile = TFile::Open("analysis2.root", "RECREATE");
 
     if (!outputFile || outputFile->IsZombie()) {
@@ -102,6 +117,7 @@ void analysis2() {
         return;
     }
 
+    // Create the tree (daily statistics)
     TTree *results = new TTree(
         "daily_statistics",
         "Temperature statistics for each day of the year"
@@ -120,6 +136,7 @@ void analysis2() {
     std::cout << "Day\tMean (C)\tStd. dev. (C)\tNumber of dates"
               << std::endl;
 
+    // Calculate mean and standard deviation          
     for (dayOfYear = 1; dayOfYear <= 365; ++dayOfYear) {
 
         nDates = numberOfDates[dayOfYear];
@@ -131,13 +148,20 @@ void analysis2() {
                 sumSquaredTemperature[dayOfYear] / nDates
                 - meanTemperature * meanTemperature;
 
+            // AI suggested this implementation    
             if (variance < 0.0) variance = 0.0;
 
             standardDeviation = std::sqrt(variance);
+        
+        // AI suggested this implementation
         } else {
             meanTemperature = 0.0;
             standardDeviation = 0.0;
         }
+
+        // Store the results for later use in the graph (AI suggested this implementation)
+        meanTemperatureByDay[dayOfYear] = meanTemperature;
+        standardDeviationByDay[dayOfYear] = standardDeviation;
 
         results->Fill();
 
@@ -149,36 +173,29 @@ void analysis2() {
 
     results->Write();
     outputFile->Close();
-
     tree->ResetBranchAddresses();
     inputFile->Close();
 
     std::cout << "\nSaved results to analysis2.root" << std::endl;
    
-    // Create separate graphs for the mean and standard deviation.
+    // Create separate graphs for the mean and standard deviation (AI help)
     TGraphAsymmErrors *errorGraph = new TGraphAsymmErrors();
     TGraph *meanGraph = new TGraph();
 
     for (int day = 1; day <= 365; ++day) {
-        int n = numberOfDates[day];
+    int n = numberOfDates[day];
 
         if (n == 0) continue;
 
-        double mean = sumTemperature[day] / n;
-
-        double variance =
-            sumSquaredTemperature[day] / n - mean * mean;
-
-        if (variance < 0.0) variance = 0.0;
-
-        double standardDeviation = std::sqrt(variance);
+        double mean = meanTemperatureByDay[day];
+        double standardDeviation = standardDeviationByDay[day];
 
         int point = meanGraph->GetN();
 
-        // Mean temperature.
+        // Mean temperature
         meanGraph->SetPoint(point, day, mean);
 
-        // Mean +/- one standard deviation.
+        // Mean +/- one standard deviation
         errorGraph->SetPoint(point, day, mean);
         errorGraph->SetPointError(
             point,
@@ -187,40 +204,34 @@ void analysis2() {
         );
     }
 
+    // Create canvas
     TCanvas *canvas = new TCanvas(
         "canvas", "Temperature by day of year", 1200, 700
     );
 
-    meanGraph->SetTitle(
-        "Mean daily temperature throughout the year;"
-        "Day of year;"
-        "Mean Temperature (#circC)"
-    );
-
-    // Style the standard deviation band.
-    errorGraph->SetFillColorAlpha(kAzure + 1, 0.15);
+    // Style the standard deviation band (AI help)
+    errorGraph->SetFillColorAlpha(kAzure + 1, 0.08);
     errorGraph->SetLineColorAlpha(kAzure + 1, 0.15);
 
-    // Style the mean temperature line.
+    // Style the mean temperature line (AI help)
     meanGraph->SetLineColor(kRed + 1);
     meanGraph->SetLineWidth(3);
 
-    // Set axis properties.
+    // Set axis properties
     errorGraph->GetXaxis()->SetLimits(1, 365);
     errorGraph->GetXaxis()->SetNdivisions(12);
     errorGraph->GetXaxis()->SetRangeUser(1, 365);
 
-    // Draw the standard deviation band first.
+    // Draw the standard deviation band first
     errorGraph->SetTitle(
-        "Mean Daily Temperature Throughout the Year;"
-        "Day of Year;"
-        "Mean Temperature (#circC)"
+        "Mean daily temperature throughout the year;"
+        "Day of year;"
+        "Mean temperature (#circC)"
     );
     errorGraph->Draw("A3");
 
-    // Draw the mean temperature clearly on top.
+    // Draw the mean temperature on top
     meanGraph->Draw("L SAME");
-    errorGraph->GetXaxis()->SetLimits(1, 365);
 
     canvas->SetGrid(1, 1);
 
