@@ -22,24 +22,24 @@ flowchart TD
     E --> J("Analysis 4: <br> Warmest and coldest days <br> (c++, ROOT)")
 
     %% Analysis 1 workflow
-    G --> G1["Analysis1.C"]
+    G --> G1["macros/Analysis1.C"]
     G1 --> G2("Main script <br> (c++)")
-    G2 --> G3("Analysis1.pdf")
+    G2 --> G3("results/Analysis1.pdf")
 
     %% Analysis 2 workflow
-    H --> H1["Analysis2.C"]
+    H --> H1["macros/Analysis2.C"]
     H1 --> H2("Main script <br> (c++)")
-    H2 --> H3("Analysis2.pdf")
+    H2 --> H3("results/Analysis2.pdf")
 
     %% Analysis 3 workflow
-    I --> I1["Analysis3.C"]
+    I --> I1["macros/Analysis3.C"]
     I1 --> I2("Main script <br> (c++)")
-    I2 --> I3("Analysis3.pdf")
+    I2 --> I3("results/Analysis3.pdf")
 
     %% Analysis 4 workflow
-    J --> J1["Analysis4.C"]
+    J --> J1["macros/Analysis4.C"]
     J1 --> J2("Main script <br> (c++)")
-    J2 --> J3("Analysis4.pdf")
+    J2 --> J3("results/Analysis4.pdf")
 
     %% Legend 
     subgraph Legend ["Legend"]
