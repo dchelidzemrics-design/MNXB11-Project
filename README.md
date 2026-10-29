@@ -1,73 +1,99 @@
-# MNXB11-Project
 # About
+This repository contains a MNXB11 project that aims to make a program that performs four different analyses of meteorological data from SMHI (Sveriges meteorologiska och hydrologiska institut) collected in Lund.  Following the build
+instructions creates a `main` executable that can be used to create a ROOT TTree that consists of a single branch with five leafs (year, month, day, hour and temperature). It can also take as argument a number corresponding to the analysis one wishes to perform. Please refer to the project report for a indepth description of the different analyses. In [`Workplan.md`](Workplan.md) there is a workflow chart that visualizes the different steps that was taken when working on this project.  
+
+# Directory structure
 
 
-# Overview
+- [datasets](datasets): Contains raw temperature data from SMHI. This is also where the parsed data file will end up after executing [`scripts/parsedata.sh`](scripts/parsedata.sh)
 
+- [include](include): Contains all cutsom header files as well as [`Linkdef.h`](Linkdef.h) which will tell `rootcling` which classes should be added to the ROOT dictionary. 
 
-The main files that can be a starting point are:
-- [rootlogon.C](rootlogon.C)
-  - This file contains code that ROOT will execute automatically whenever you start it, a good place to place general style choices you want to make or anything else you always want to run!
-  - Be careful to not include anything that depends on your particular machine here (e.g. absolute paths)
-- [main.cxx](main.cxx)
-  - This file contains a sample `main` function for your project. You should start with this file if you want to build the project as a C++ binary instead of using the ROOT interpreter.
-- [Makefile](Makefile)
-  - This file gives the `make` utility instructions on how to build different targets. For your convenience there is also a `clean` target that can be used to delete built files to start anew.
-  - You should use this file if you plan to automate the C++ build of your project, but don't use it as a script. It is meant for C++ stuff only - use a BASH script for environment variables and task automation instead.
+- [scripts](scripts): Contains a BASH script [`parsedata.sh`](parsedata.sh) that extracts [`datasets.tgz`](datasets.tgz) and parses the data corresponding to Lund and writes it to a new file `parseddata.csv`.
 
-We have also included three special files in the base of the repository 
-- [.gitignore](.gitignore)
-  - This file contains regular expressions that git tells git that it shouldn't add certain file to your repository. 
-  - Your git repository should generally not contain binary files like object files or executables nor should it contain build artefacts like external libraries. 
-- [.clang-format](.clang-format)
-  - This file holds the configuration for the clang-format tool that you can use to format your code consistently 
-  - It is a good idea to keep your code formatted in a consistent manner, especially when working in groups but doing it manually is a waste of your time. Use a tool for it!
-  ```
-  # Show what the src/Example.cxx file would look like if formatted
-  clang-format src/Example.cxx 
-  # Carry out the formatting in the file directly 
-  clang-format src/Example.cxx -i
-  ```
-  - The `.clang-format` file holds the configuration that clang-format will use to determine how to format your code. By default, it will be formatted according to Google's style but you can pick any that you like from https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+- [macros](macros): Contains all ROOT macros that performs the analyses. 
 
-The [datasets](datasets) folder contains open data from SMHI and a README.md with further information about it.
+- [results](results): The folder where the results will end up.
 
-The [scripts](scripts) folder contains BASH scripts examples that can be used to create a build script or a launcher/wrapper for your binaries or for your SLURM submission
+- [slurm](slurm): Contains a SLURM BATCH job file. 
 
-The [slurm](slurm) folder contains an example SLURM SBATCH script that calls one of the project launcher scripts above.
+- [src](src): Contains all source files other than [`main.cxx`](main.cxx). 
 
 
 # Building the project
+Below we go through, in order, all the steps needed to build the project. Before running any of the steps below, however, make sure you are inside the course container by executing 
 
-We have included a basic Makefile here which should be familiar to you. It follows the same project structure that we have been using in the course. When you add a new translation unit to the project, you have update the dependencies in the Makefile. 
+```sh
+# Enter the course container
+/projects/hep/fs11/share/mnxb11/bin/startmnxb11container.sh bash
+```
+## Parsing the raw data
+To extract and parse the raw data, change into the [scripts](scripts) folder and execute the BASH script [`parsedata.sh`](parsedata.sh). From the base directory, do the following
+```sh
+# Change into the scripts folder 
+cd scripts
 
-By default, the `all` target will be run which 
-- Compiles any `.cxx` files in the `src/` directory into object files 
-- Compiles [`main.cxx`](main.cxx) and links with all the object files in `src/`
+# Make sure you have permisson to execute the script 
+chmod +x parsedata.sh
 
-You can run the `clean` target (`make clean`) to remove any object files that have been produced as well as the `main` executable.
+# Execute the script
+./parsedata.sh
+```
+This will create a new file `parseddata.csv` inside the [datasets](datasets) folder that contains parsed data from the SMHI station in Lund. During the parsing, all data labeled by 'Y' (aggregated data) were exluded. 
 
 ## Adding external software libraries
+The projects makes use of an external csv file parsing library that is used when extracting the data from `parseddata.csv`. From the base directory, do the following 
 
-If you want to make use of external software libraries with your project, you
-will always have to tell the tool that builds your project. The Makefile included in this template will pick up any header files in the external/include directory and look for libraries in external/lib and external/lib64 so if you use external as your installation directory, you only need to add the corresponding `-l` flag to the linker.
-
-Here's an illustration of the typical process to add a (CMake based) external library
 ``` sh
-# Clone or download the library you want to use 
-git clone https://somerepository.com/alibrary alibrary # The last argument determines what the directory will be called
+# Create an external/include directory 
+mkdir -pv external/include 
 
-mkdir build/alibrary -pv # -p will tell mkdir to create the build/ directory if it doesn't already exist 
-# Go into the build directory
-cd build/alibrary 
-# Look up the documentation for the library to find out if there are any additional flags you need for CMake 
+# Clone the csv parser library into the external/include folder and name it csv
+git clone https://github.com/ben-strasser/fast-cpp-csv-parser external/include/csv
+```
+## Build the ROOT dictionary contaning custom library and `Observation` class
+The data extraction part of the project makes use of a custom `Observation` class to generate a ROOT TTree object. Before creating the ROOT TTree the required library first have to be built. This is automated by embedding `rootcling` inside [`Makefile`](Makefile). From the base directory, do 
 
-# This command tells CMake to configure the build directory based on the source code in the ../../alibrary folder and to install the resulting headers and library files into ../../external
-cmake ../../alibrary -DCMAKE_INSTALL_PREFIX=../../external 
-# Build and install! Use -jN to launch N jobs
-make -j8 install # If you are on an 8-core machine
+``` sh
+# Generate ROOT dictionary 
+make libObservation.so
 ```
 
-Make sure to document how to do this for any library you choose to use!
+## Build the `main` executable
+Inside the base directory, do 
 
-Have fun!
+``` sh
+# Generate ROOT dictionary 
+make main
+```
+
+# Using the `main` executable
+In order to generate the ROOT TTree called `temperature_tree.root` inside the base directory, simply run the `main` executable without any arguments 
+
+``` sh
+# Generate ROOT TTree
+./main
+```
+To perform one of the four analyses, give the `main` executable as an argument the analysis you wish to perform 
+``` sh
+# Perform analysis 1
+./main 1
+
+# Perform analysis 2
+./main 2
+
+# Perform analysis 3
+./main 3
+
+# Perform analysis 4
+./main 4
+```
+The results produced can be found inside the [results](results) folder.
+
+# Clean the project
+All object files, extracted/parsed data and ROOT dictionaries can be removed by executing 
+``` sh
+# Cleans the project 
+make clean
+```
+This will remove everything except the generated results.
