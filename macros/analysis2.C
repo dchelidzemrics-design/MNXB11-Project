@@ -108,7 +108,7 @@ void analysis2() {
     }
 
     // Create the output ROOT file
-    TFile *outputFile = TFile::Open("analysis2.root", "RECREATE");
+    TFile *outputFile = TFile::Open("results/analysis2.root", "RECREATE");
 
     if (!outputFile || outputFile->IsZombie()) {
         std::cerr << "Error: could not create analysis2.root" << std::endl;
@@ -235,6 +235,6 @@ void analysis2() {
 
     canvas->SetGrid(1, 1);
 
-    canvas->SaveAs("analysis2.pdf");
+    canvas->SaveAs("results/analysis2.pdf");
 
 }
