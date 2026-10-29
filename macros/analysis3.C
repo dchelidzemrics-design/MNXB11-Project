@@ -11,6 +11,7 @@
 #include <TLine.h>
 #include <TAxis.h>
 #include <TBox.h>
+#include <TStyle.h>
 #include <string>
 #include <iostream>
 #include <map>
@@ -21,7 +22,11 @@ double tempPerYear(int predictionYear);
 
 double tempPerYear(int predictionYear)
 {
-//This whole thing is basically homework 6 and lecture/tutorial 7
+    //style for TGraphs
+    gStyle->SetTitleFont(42, "T");
+    gStyle->SetTitleSize(0.05, "T");
+
+    //This whole thing is basically homework 6 and lecture/tutorial 7
     //open root file
     TFile *file = TFile::Open("temperature_tree.root", "READ");
 
@@ -69,8 +74,13 @@ double tempPerYear(int predictionYear)
     for (const auto& entry: tempSum) {
         int year = entry.first; 
         
-        double meanTemp = 
-        tempSum[year] / measurementCount[year]; 
+        //skips years without enough data
+        if (measurementCount[year] < 360)
+        {
+            continue;
+        }
+
+        double meanTemp = tempSum[year] / measurementCount[year]; 
 
         //two new vectors containing year and corresponding mean temperature
         years.push_back(year);
@@ -97,10 +107,24 @@ double tempPerYear(int predictionYear)
     //create graph
     TCanvas meanTempCanvas("meanTempCanvas", "Annual Mean Temperature", 800, 600);
 
-    meanTempGraph.SetTitle("Annual Mean Temperature;Year;Mean Temperature");
+    //title
+    meanTempGraph.SetTitle("Annual Mean Temperature;Year;Mean Temperature [Celsius]");
+
+    //font things
+    meanTempGraph.GetXaxis()->SetTitleFont(42);
+    meanTempGraph.GetYaxis()->SetTitleFont(42);
+    meanTempGraph.GetXaxis()->SetTitleSize(0.045);
+    meanTempGraph.GetYaxis()->SetTitleSize(0.045);
+    meanTempGraph.GetXaxis()->SetLabelFont(42);
+    meanTempGraph.GetYaxis()->SetLabelFont(42);
+    meanTempGraph.GetXaxis()->SetLabelSize(0.035);
+    meanTempGraph.GetYaxis()->SetLabelSize(0.035);
+
+    //other style things
     meanTempGraph.SetMarkerStyle(8);
     meanTempGraph.SetMarkerColor(41); 
     meanTempGraph.SetLineColor(kBlue); 
+
     meanTempGraph.Draw("AP");
 
     meanTempCanvas.SaveAs("results/annual_mean.png");
@@ -117,10 +141,28 @@ double tempPerYear(int predictionYear)
     double totMean = sumMean / meanTemperatures.size(); 
 
     //deviation from mean (bar charts)
-    TH1D devHist("devHist", "Annual Mean Temperature", years.size(), 0, years.size());
+    TH1D devHist("devHist", "Deviation from average", years.size(), 0, years.size());
 
-    devHist.SetMinimum(totMean - 7);
-    devHist.SetMaximum(totMean + 7);
+    //title
+    devHist.SetTitle("Annual Mean Temperature Deviation From Average;Year;Mean Temperature [Celsius]");
+    devHist.SetTitleFont(42, ""); 
+    devHist.SetTitleSize(0.05, ""); 
+
+    //font things (titles)
+    devHist.GetXaxis()->SetTitleFont(42);
+    devHist.GetYaxis()->SetTitleFont(42);
+    devHist.GetXaxis()->SetTitleSize(0.045);
+    devHist.GetYaxis()->SetTitleSize(0.045);
+
+    //font things (labels)
+    devHist.GetXaxis()->SetLabelFont(42);
+    devHist.GetYaxis()->SetLabelFont(42);
+    devHist.GetXaxis()->SetLabelSize(0.035);
+    devHist.GetYaxis()->SetLabelSize(0.035);
+
+    //y-axis mina and max
+    devHist.SetMinimum(totMean - 2.5);
+    devHist.SetMaximum(totMean + 2.5);
     devHist.SetStats(false);
 
     TCanvas devCanvas("devCanvas", "Temperature", 1000, 600);
@@ -143,7 +185,18 @@ double tempPerYear(int predictionYear)
             std::max(totMean, meanTemperatures[i])
         );
 
-        bar->SetFillColor(kRed);
+        if (meanTemperatures[i] < totMean)
+        {
+            bar->SetFillColor(kBlue); 
+        }
+        else
+        {
+            bar->SetFillColor(kRed); 
+        }
+
+        bar->SetLineColor(kBlack); 
+        bar->SetLineWidth(2); 
+
         bar->Draw("same");
     }
 
